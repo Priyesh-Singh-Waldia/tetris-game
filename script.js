@@ -13,11 +13,18 @@ document.addEventListener("DOMContentLoaded", () => {
     [width, width * 2, width * 2 + 1, width * 2 + 2],
   ];
 
+  const sTetromino = [
+    [0, width, width + 1, width * 2 + 1],
+    [width + 1, width + 2, width * 2, width * 2 + 1],
+    [0, width, width + 1, width * 2 + 1],
+    [width + 1, width + 2, width * 2, width * 2 + 1],
+  ];
+
   const zTetromino = [
-    [0, width, width + 1, width * 2 + 1],
-    [width + 1, width + 2, width * 2, width * 2 + 1],
-    [0, width, width + 1, width * 2 + 1],
-    [width + 1, width + 2, width * 2, width * 2 + 1],
+    [2, width + 1, width + 2, width * 2 + 1],
+    [width, width + 1, width * 2 + 1, width * 2 + 2],
+    [2, width + 1, width + 2, width * 2 + 1],
+    [width, width + 1, width * 2 + 1, width * 2 + 2],
   ];
 
   const tTetromino = [
@@ -41,14 +48,24 @@ document.addEventListener("DOMContentLoaded", () => {
     [width, width + 1, width + 2, width + 3],
   ];
 
+  const jTetromino = [
+    [0, 1, width + 1, width * 2 + 1],
+    [width, width + 1, width + 2, width * 2],
+    [1, width + 1, width * 2 + 1, width * 2 + 2],
+    [width + 2, width * 2, width * 2 + 1, width * 2 + 2],
+  ];
+
   const theTetrominoes = [
     lTetromino,
     zTetromino,
     tTetromino,
     oTetromino,
     iTetromino,
+    sTetromino,
+    jTetromino,
   ];
 
+  //👣 Postions
   let currentPosition = 4;
   let currentRotation = 0;
 
@@ -71,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   //🏎️ speed
-  speed = 500;
+  speed = 600;
 
   //⌛ make the tetromino move down every second
   timerId = setInterval(moveDown, speed);
@@ -95,9 +112,9 @@ document.addEventListener("DOMContentLoaded", () => {
       rotateRight();
     }
     //🔄️ Rotate ⬅️ Left
-    // else if (e.keyCode === 188 || e.keyCode === 81) {
-    //   rotateLeft();
-    // }
+    else if (e.keyCode === 188 || e.keyCode === 81) {
+      rotateLeft();
+    }
   }
   document.addEventListener("keydown", control);
 
@@ -174,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
     undraw();
     currentRotation++;
     if (currentRotation === current.length) {
-      // if the current rotation gets to 4, then make it 0
+      // if the current rotation gets to 3, then make it 0
       currentRotation = 0;
     }
     current = theTetrominoes[random][currentRotation];
@@ -182,14 +199,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Left
-  // function rotateLeft() {
-  //   undraw();
-  //   currentRotation--;
-  //   if (currentRotation === 0) {
-  //     // if the current rotation gets to 0, then make it 4
-  //     currentRotation = 4;
-  //   }
-  //   current = theTetrominoes[random][currentRotation];
-  //   draw();
-  // }
+  function rotateLeft() {
+    undraw();
+    if (currentRotation > 0) {
+      // if the current rotation is greater than 0, then --;
+      currentRotation--;
+    } else if (currentRotation === 0) {
+      // if the current rotation is 0, then make it 3
+      currentRotation = 3;
+    }
+    current = theTetrominoes[random][currentRotation];
+    draw();
+  }
 });
